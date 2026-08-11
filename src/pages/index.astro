@@ -1,0 +1,68 @@
+---
+import registry from "../../data/apps.json";
+import "../styles/global.css";
+
+const publishedCount = registry.apps.filter((app) => app.status === "published").length;
+const statusLabel = (status: string): string => ({
+  published: "Published",
+  building: "Building",
+  failed: "Needs attention",
+  local: "Local setup",
+}[status] ?? "Unknown");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="A calm launchpad for personal GitHub Pages applications." />
+    <title>Personal Hub · Your applications, together</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={import.meta.env.BASE_URL} aria-label="Personal Hub home">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span><strong>Personal Hub</strong><small>Your applications, together</small></span>
+      </a>
+      <span class="header-note">{registry.apps.length} app{registry.apps.length === 1 ? "" : "s"} in your constellation</span>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">A small control plane for personal software</p>
+          <h1>Everything useful,<br /><em>one quiet place.</em></h1>
+          <p class="hero-copy">The hub helps you find, understand and open your GitHub Pages applications. Each app keeps its own repository, data and deployment.</p>
+        </div>
+        <div class="hero-orbit" aria-hidden="true"><span>H</span><i></i><b></b><b></b><b></b></div>
+      </section>
+
+      <section class="summary-strip" aria-label="Hub summary">
+        <div><strong>{registry.apps.length}</strong><span>Registered apps</span></div>
+        <div><strong>{publishedCount}</strong><span>Published</span></div>
+        <div><strong>1</strong><span>Hub registry</span></div>
+      </section>
+
+      <section class="apps-section" aria-labelledby="apps-title">
+        <div class="section-heading"><div><p class="eyebrow">Your constellation</p><h2 id="apps-title">Applications</h2></div><span class="registry-note">Registry v{registry.schemaVersion}</span></div>
+        <div class="app-grid">
+          {registry.apps.map((app) => (
+            <article class={`app-card status-${app.status}`}>
+              <div class="card-top"><span class="app-icon" aria-hidden="true">{app.title.slice(0, 1)}</span><span class="status-pill"><i></i>{statusLabel(app.status)}</span></div>
+              <h3>{app.title}</h3>
+              <p>{app.description}</p>
+              <div class="tag-list">{app.tags.map((tag) => <span>{tag}</span>)}</div>
+              <dl class="app-meta"><div><dt>Repository</dt><dd>{app.repository}</dd></div><div><dt>Capabilities</dt><dd>{app.capabilities.join(" · ")}</dd></div></dl>
+              <div class="card-actions"><a class="button button-primary" href={app.pagesUrl}>Open application <span aria-hidden="true">→</span></a><a class="button button-quiet" href={`https://github.com/${app.repository}`} target="_blank" rel="noreferrer">Repository</a></div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <aside class="boundary-note"><span class="note-icon" aria-hidden="true">◎</span><div><strong>Independent by design</strong><p>The hub owns the catalogue. Each application owns its code, canonical data, Git history and Pages deployment.</p></div></aside>
+    </main>
+
+    <footer><span>Personal Hub · v0.1.0</span><span>Built for small, user-owned applications</span></footer>
+  </body>
+</html>

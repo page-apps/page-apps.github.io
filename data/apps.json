@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "apps": [
+    {
+      "id": "quick-log",
+      "title": "Quick Log",
+      "description": "Capture small thoughts, decisions and wins in your own repository.",
+      "repository": "page-apps/quick-log",
+      "pagesUrl": "https://page-apps.github.io/quick-log/",
+      "status": "building",
+      "tags": ["notes", "personal"],
+      "capabilities": ["read", "write", "publish"]
+    }
+  ]
+}
