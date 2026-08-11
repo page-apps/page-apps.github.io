@@ -7,7 +7,7 @@
       "description": "Capture small thoughts, decisions and wins in your own repository.",
       "repository": "page-apps/quick-log",
       "pagesUrl": "https://page-apps.github.io/quick-log/",
-      "status": "building",
+      "status": "published",
       "tags": ["notes", "personal"],
       "capabilities": ["read", "write", "publish"]
     }
