@@ -10,6 +10,46 @@
       "status": "published",
       "tags": ["notes", "personal"],
       "capabilities": ["read", "write", "publish"]
+    },
+    {
+      "id": "bookmarks",
+      "title": "Bookmark Garden",
+      "description": "Save, tag, search and connect useful links in your own GitHub-backed library.",
+      "repository": "page-apps/bookmarks",
+      "pagesUrl": "https://page-apps.github.io/bookmarks/",
+      "status": "published",
+      "tags": ["bookmarks", "personal", "pwa"],
+      "capabilities": ["read", "write", "offline"]
+    },
+    {
+      "id": "reading-atlas",
+      "title": "Reading Atlas",
+      "description": "Explore a public map of books, authors, ideas, notes and useful source links.",
+      "repository": "page-apps/reading-atlas",
+      "pagesUrl": "https://page-apps.github.io/reading-atlas/",
+      "status": "published",
+      "tags": ["books", "authors", "knowledge-map"],
+      "capabilities": ["search", "relationships", "offline"]
+    },
+    {
+      "id": "creative-lexicon",
+      "title": "Creative Lexicon",
+      "description": "Find practical language for video transitions, visual styles and writing direction.",
+      "repository": "page-apps/creative-lexicon",
+      "pagesUrl": "https://page-apps.github.io/creative-lexicon/",
+      "status": "published",
+      "tags": ["creative", "reference", "agent-skills"],
+      "capabilities": ["search", "copy", "install"]
+    },
+    {
+      "id": "loam",
+      "title": "Loam",
+      "description": "Edit a Logseq-compatible graph from a local folder or private GitHub repository.",
+      "repository": "page-apps/loam",
+      "pagesUrl": "https://page-apps.github.io/loam/",
+      "status": "published",
+      "tags": ["logseq", "outliner", "pwa"],
+      "capabilities": ["read", "write", "offline"]
     }
   ]
 }
