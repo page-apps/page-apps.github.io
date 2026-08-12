@@ -15,8 +15,9 @@ const statusLabel = (status: string): string => ({
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="A calm launchpad for personal GitHub Pages applications." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; base-uri 'self'; form-action 'none'" />
     <title>Personal Hub · Your applications, together</title>
   </head>
   <body>
@@ -25,7 +26,13 @@ const statusLabel = (status: string): string => ({
         <span class="brand-mark" aria-hidden="true">H</span>
         <span><strong>Personal Hub</strong><small>Your applications, together</small></span>
       </a>
-      <span class="header-note">{registry.apps.length} app{registry.apps.length === 1 ? "" : "s"} in your constellation</span>
+      <div class="header-actions">
+        <span class="header-note">{registry.apps.length} app{registry.apps.length === 1 ? "" : "s"} in your constellation</span>
+        <button class="button button-quiet pat-header-button" type="button" data-pat-open>
+          <span class="pat-dot" aria-hidden="true"></span>
+          <span data-pat-open-label>Set up shared PAT</span>
+        </button>
+      </div>
     </header>
 
     <main class="page-shell">
@@ -42,6 +49,32 @@ const statusLabel = (status: string): string => ({
         <div><strong>{registry.apps.length}</strong><span>Registered apps</span></div>
         <div><strong>{publishedCount}</strong><span>Published</span></div>
         <div><strong>1</strong><span>Hub registry</span></div>
+      </section>
+
+      <section class="credential-panel" aria-labelledby="credential-title">
+        <div class="credential-copy">
+          <p class="eyebrow">Private write access</p>
+          <div class="credential-title-row">
+            <h2 id="credential-title">Set up once. Approve in each app.</h2>
+            <span class="credential-status" data-pat-status aria-live="polite"><i></i>Not configured</span>
+          </div>
+          <p>Keep one fine-grained GitHub personal access token in this browser. Quick Log, Bookmark Garden, and Loam can then ask to use it—each app still needs your approval and verifies its own repository.</p>
+          <p class="credential-detail" data-pat-detail>Nothing has been stored on this device.</p>
+        </div>
+        <div class="credential-actions">
+          <button class="button button-primary" type="button" data-pat-open data-pat-main-action>Set up shared PAT</button>
+          <button class="button button-danger" type="button" data-pat-remove hidden>Remove shared PAT</button>
+        </div>
+        <div class="credential-steps" aria-label="How shared access works">
+          <div><span>1</span><strong>Create</strong><p>Choose a fine-grained token with Contents read and write.</p></div>
+          <div><span>2</span><strong>Save locally</strong><p>The hub verifies it, then stores it only in this browser.</p></div>
+          <div><span>3</span><strong>Approve per app</strong><p>Open an app and choose “Use shared credential.”</p></div>
+        </div>
+        <details class="security-note">
+          <summary>Security and repository-owner limits</summary>
+          <p>The token is held in <code>localStorage</code>, not in this repository or GitHub Actions. Because every Page App uses the same <code>page-apps.github.io</code> origin, any code running on that origin can technically read it. Use this only on a trusted personal device.</p>
+          <p>A fine-grained PAT has one resource owner. To use one token for Quick Log, Bookmarks, and a private Loam graph, keep all three data repositories under <code>page-apps</code>. A graph owned by another account needs a separate token.</p>
+        </details>
       </section>
 
       <section class="apps-section" aria-labelledby="apps-title">
@@ -63,6 +96,150 @@ const statusLabel = (status: string): string => ({
       <aside class="boundary-note"><span class="note-icon" aria-hidden="true">◎</span><div><strong>Independent by design</strong><p>The hub owns the catalogue. Each application owns its code, canonical data, Git history and Pages deployment.</p></div></aside>
     </main>
 
+    <dialog class="pat-dialog" data-pat-dialog aria-labelledby="pat-dialog-title">
+      <form class="pat-form" data-pat-form>
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow">Shared credential vault</p>
+            <h2 id="pat-dialog-title" data-pat-dialog-title>Set up your GitHub PAT</h2>
+          </div>
+          <button class="dialog-close" type="button" data-pat-close aria-label="Close">×</button>
+        </div>
+
+        <div class="setup-guide">
+          <strong>Create the narrowest useful token</strong>
+          <ol>
+            <li>Use the <strong>page-apps</strong> organization as resource owner.</li>
+            <li>Select <strong>Only select repositories</strong>: <code>quick-log</code>, <code>bookmarks</code>, and your private Loam graph if you use one.</li>
+            <li>Grant repository permission <strong>Contents: Read and write</strong>. No Actions or administration permission is needed.</li>
+          </ol>
+          <a class="button button-quiet" href="https://github.com/settings/personal-access-tokens/new?name=Page%20Apps&amp;description=Write%20personal%20Page%20Apps%20data%20from%20this%20browser&amp;target_name=page-apps&amp;expires_in=90&amp;contents=write" target="_blank" rel="noreferrer">Create fine-grained PAT on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <label class="field-label" for="github-pat">Personal access token</label>
+        <div class="secret-field">
+          <input id="github-pat" name="token" type="password" required autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…" />
+          <button type="button" data-pat-toggle aria-controls="github-pat">Show</button>
+        </div>
+        <p class="field-help">The hub checks your GitHub account plus write access to <code>page-apps/quick-log</code> and <code>page-apps/bookmarks</code> before saving.</p>
+
+        <label class="acknowledgement">
+          <input name="acknowledgement" type="checkbox" required />
+          <span>I understand that all apps on <code>page-apps.github.io</code> share this browser origin and could technically access this token.</span>
+        </label>
+
+        <p class="form-error" data-pat-error role="alert" hidden></p>
+        <div class="dialog-actions">
+          <button class="button button-quiet" type="button" data-pat-close>Cancel</button>
+          <button class="button button-primary" type="submit" data-pat-submit>Verify and save</button>
+        </div>
+      </form>
+    </dialog>
+
     <footer><span>Personal Hub · v0.1.0</span><span>Built for small, user-owned applications</span></footer>
+
+    <script>
+      import { readSharedPatSummary, removeSharedPat, setupSharedPat } from "../lib/shared-pat";
+
+      const dialog = document.querySelector<HTMLDialogElement>("[data-pat-dialog]");
+      const form = document.querySelector<HTMLFormElement>("[data-pat-form]");
+      const tokenInput = document.querySelector<HTMLInputElement>("#github-pat");
+      const submitButton = document.querySelector<HTMLButtonElement>("[data-pat-submit]");
+      const errorMessage = document.querySelector<HTMLElement>("[data-pat-error]");
+      const status = document.querySelector<HTMLElement>("[data-pat-status]");
+      const detail = document.querySelector<HTMLElement>("[data-pat-detail]");
+      const mainAction = document.querySelector<HTMLElement>("[data-pat-main-action]");
+      const removeButton = document.querySelector<HTMLButtonElement>("[data-pat-remove]");
+      const dialogTitle = document.querySelector<HTMLElement>("[data-pat-dialog-title]");
+
+      function renderStatus(): void {
+        let summary = null;
+        try {
+          summary = readSharedPatSummary();
+        } catch {
+          if (status) {
+            const dot = document.createElement("i");
+            status.replaceChildren(dot, document.createTextNode("Storage unavailable"));
+          }
+          if (detail) detail.textContent = "This browser is blocking local credential storage.";
+          return;
+        }
+
+        document.querySelectorAll<HTMLElement>("[data-pat-open-label]").forEach((label) => {
+          label.textContent = summary ? "Manage shared PAT" : "Set up shared PAT";
+        });
+        if (mainAction) mainAction.textContent = summary ? "Replace shared PAT" : "Set up shared PAT";
+        if (dialogTitle) dialogTitle.textContent = summary ? "Replace your shared GitHub PAT" : "Set up your GitHub PAT";
+        if (removeButton) removeButton.hidden = !summary;
+
+        if (status) {
+          status.classList.toggle("is-ready", Boolean(summary));
+          const dot = document.createElement("i");
+          const label = summary
+            ? `Ready${summary.account ? ` for @${summary.account}` : ""}`
+            : "Not configured";
+          status.replaceChildren(dot, document.createTextNode(label));
+        }
+        if (detail) {
+          detail.textContent = summary
+            ? `Saved on ${new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(summary.createdAt))}. ${summary.connectedApps.length} app registration${summary.connectedApps.length === 1 ? "" : "s"} in the shared vault.`
+            : "Nothing has been stored on this device.";
+        }
+      }
+
+      function openDialog(): void {
+        if (!dialog) return;
+        if (errorMessage) errorMessage.hidden = true;
+        dialog.showModal();
+        window.setTimeout(() => tokenInput?.focus(), 0);
+      }
+
+      document.querySelectorAll<HTMLElement>("[data-pat-open]").forEach((button) => {
+        button.addEventListener("click", openDialog);
+      });
+      document.querySelectorAll<HTMLElement>("[data-pat-close]").forEach((button) => {
+        button.addEventListener("click", () => dialog?.close());
+      });
+      dialog?.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+      document.querySelector<HTMLElement>("[data-pat-toggle]")?.addEventListener("click", (event) => {
+        if (!tokenInput) return;
+        const button = event.currentTarget as HTMLButtonElement;
+        const showing = tokenInput.type === "text";
+        tokenInput.type = showing ? "password" : "text";
+        button.textContent = showing ? "Show" : "Hide";
+      });
+
+      form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!tokenInput || !submitButton || !errorMessage) return;
+        submitButton.disabled = true;
+        submitButton.textContent = "Verifying…";
+        errorMessage.hidden = true;
+        try {
+          await setupSharedPat(tokenInput.value);
+          form.reset();
+          tokenInput.type = "password";
+          dialog?.close();
+          renderStatus();
+        } catch (error) {
+          errorMessage.textContent = error instanceof Error ? error.message : "The credential could not be saved.";
+          errorMessage.hidden = false;
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Verify and save";
+        }
+      });
+
+      removeButton?.addEventListener("click", () => {
+        if (!window.confirm("Remove the shared PAT from this browser? Connected apps will need another credential the next time they sync.")) return;
+        removeSharedPat();
+        renderStatus();
+      });
+
+      window.addEventListener("storage", renderStatus);
+      renderStatus();
+    </script>
   </body>
 </html>
