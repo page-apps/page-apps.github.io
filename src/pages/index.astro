@@ -55,10 +55,10 @@ const statusLabel = (status: string): string => ({
         <div class="credential-copy">
           <p class="eyebrow">Private write access</p>
           <div class="credential-title-row">
-            <h2 id="credential-title">Set up once. Approve in each app.</h2>
+          <h2 id="credential-title">Set up once. Reconnect automatically.</h2>
             <span class="credential-status" data-pat-status aria-live="polite"><i></i>Not configured</span>
           </div>
-          <p>Keep one fine-grained GitHub personal access token in this browser. Quick Log, Bookmark Garden, and Loam can then ask to use it—each app still needs your approval and verifies its own repository.</p>
+          <p>Keep one fine-grained GitHub personal access token in this browser. Quick Log, Bookmark Garden, and Loam ask once to use it, then automatically reconnect on later loads while verifying their own repositories.</p>
           <p class="credential-detail" data-pat-detail>Nothing has been stored on this device.</p>
         </div>
         <div class="credential-actions">
@@ -68,7 +68,7 @@ const statusLabel = (status: string): string => ({
         <div class="credential-steps" aria-label="How shared access works">
           <div><span>1</span><strong>Create</strong><p>Choose a fine-grained token with Contents read and write.</p></div>
           <div><span>2</span><strong>Save locally</strong><p>The hub verifies it, then stores it only in this browser.</p></div>
-          <div><span>3</span><strong>Approve per app</strong><p>Open an app and choose “Use shared credential.”</p></div>
+          <div><span>3</span><strong>Connect per app</strong><p>Open each app once; later loads reuse the saved credential.</p></div>
         </div>
         <details class="security-note">
           <summary>Security and repository-owner limits</summary>
