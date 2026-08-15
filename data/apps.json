@@ -50,6 +50,16 @@
       "status": "published",
       "tags": ["logseq", "outliner", "pwa"],
       "capabilities": ["read", "write", "offline"]
+    },
+    {
+      "id": "ai-news-daily",
+      "title": "AI Daily Brief",
+      "description": "Read one deeply researched, connected AI-news edition per day and approve private drafts from the browser.",
+      "repository": "page-apps/ai-news-daily",
+      "pagesUrl": "https://page-apps.github.io/ai-news-daily/",
+      "status": "building",
+      "tags": ["ai-news", "knowledge", "pwa", "reading"],
+      "capabilities": ["read", "write", "publish", "offline"]
     }
   ]
 }
