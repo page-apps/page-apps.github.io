@@ -50,7 +50,9 @@ describe("shared PAT vault", () => {
     const fetcher = vi.fn<typeof fetch>()
       .mockResolvedValueOnce(jsonResponse({ login: "cmwen" }))
       .mockResolvedValueOnce(jsonResponse({ permissions: { push: true } }))
-      .mockResolvedValueOnce(jsonResponse({ permissions: { maintain: true } }));
+      .mockResolvedValueOnce(jsonResponse({ permissions: { maintain: true } }))
+      .mockResolvedValueOnce(jsonResponse({ permissions: { pull: true } }))
+      .mockResolvedValueOnce(jsonResponse({ permissions: { push: true } }));
 
     const result = await setupSharedPat(" github_pat_example ", {
       storage,
@@ -58,17 +60,24 @@ describe("shared PAT vault", () => {
       now: () => new Date("2026-08-12T00:00:00.000Z"),
     });
 
-    expect(fetcher).toHaveBeenCalledTimes(3);
+    expect(fetcher).toHaveBeenCalledTimes(5);
     expect(fetcher.mock.calls.map(([url]) => url)).toEqual([
       "https://api.github.com/user",
       "https://api.github.com/repos/page-apps/quick-log",
       "https://api.github.com/repos/page-apps/bookmarks",
+      "https://api.github.com/repos/page-apps/todo-list-plugin",
+      "https://api.github.com/repos/page-apps/todo-list-data",
     ]);
     expect(result).toEqual({
       account: "cmwen",
       createdAt: "2026-08-12T00:00:00.000Z",
       connectedApps: ["page-apps-hub", "quick-log"],
-      verifiedRepositories: ["page-apps/quick-log", "page-apps/bookmarks"],
+      verifiedRepositories: [
+        "page-apps/quick-log",
+        "page-apps/bookmarks",
+        "page-apps/todo-list-plugin",
+        "page-apps/todo-list-data",
+      ],
     });
 
     const stored = JSON.parse(storage.getItem(SHARED_CREDENTIAL_KEY) ?? "null");
