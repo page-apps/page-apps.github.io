@@ -2,7 +2,12 @@ export const SHARED_CREDENTIAL_KEY = "repo-apps:credentials:v1";
 
 const HUB_APP_ID = "page-apps-hub";
 const GITHUB_API_VERSION = "2022-11-28";
-const REQUIRED_REPOSITORIES = ["page-apps/quick-log", "page-apps/bookmarks"] as const;
+const REQUIRED_REPOSITORIES = [
+  { repository: "page-apps/quick-log", access: "write" },
+  { repository: "page-apps/bookmarks", access: "write" },
+  { repository: "page-apps/todo-list-plugin", access: "read" },
+  { repository: "page-apps/todo-list-data", access: "write" },
+] as const;
 
 interface StorageLike {
   getItem(key: string): string | null;
@@ -143,6 +148,11 @@ function canWriteRepository(payload: Record<string, unknown>): boolean {
     || payload.permissions.maintain === true;
 }
 
+function canReadRepository(payload: Record<string, unknown>): boolean {
+  if (!isRecord(payload.permissions)) return false;
+  return payload.permissions.pull === true || canWriteRepository(payload);
+}
+
 export function readSharedPatSummary(storage: StorageLike = browserStorage()): SharedPatSummary | null {
   const envelope = decodeEnvelope(storage.getItem(SHARED_CREDENTIAL_KEY));
   return envelope ? toSummary(envelope) : null;
@@ -165,10 +175,11 @@ export async function setupSharedPat(
     throw new Error("GitHub did not return an account for this token.");
   }
 
-  for (const repository of REQUIRED_REPOSITORIES) {
-    const payload = await githubRequest(`/repos/${repository}`, token, fetcher);
-    if (!canWriteRepository(payload)) {
-      throw new Error(`This token does not have Contents write access to ${repository}.`);
+  for (const requirement of REQUIRED_REPOSITORIES) {
+    const payload = await githubRequest(`/repos/${requirement.repository}`, token, fetcher);
+    const allowed = requirement.access === "write" ? canWriteRepository(payload) : canReadRepository(payload);
+    if (!allowed) {
+      throw new Error(`This token does not have Contents ${requirement.access} access to ${requirement.repository}.`);
     }
   }
 
@@ -192,7 +203,7 @@ export async function setupSharedPat(
   storage.setItem(SHARED_CREDENTIAL_KEY, JSON.stringify(envelope));
   return {
     ...toSummary(envelope),
-    verifiedRepositories: [...REQUIRED_REPOSITORIES],
+    verifiedRepositories: REQUIRED_REPOSITORIES.map(({ repository }) => repository),
   };
 }
 

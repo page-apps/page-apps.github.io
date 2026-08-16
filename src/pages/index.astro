@@ -110,7 +110,7 @@ const statusLabel = (status: string): string => ({
           <strong>Create the narrowest useful token</strong>
           <ol>
             <li>Use the <strong>page-apps</strong> organization as resource owner.</li>
-            <li>Select <strong>Only select repositories</strong>: <code>quick-log</code>, <code>bookmarks</code>, and your private Loam graph if you use one.</li>
+            <li>Select <strong>Only select repositories</strong>: <code>quick-log</code>, <code>bookmarks</code>, <code>todo-list-plugin</code>, <code>todo-list-data</code>, and your private Loam graph if you use one.</li>
             <li>Grant repository permission <strong>Contents: Read and write</strong>. No Actions or administration permission is needed.</li>
           </ol>
           <a class="button button-quiet" href="https://github.com/settings/personal-access-tokens/new?name=Page%20Apps&amp;description=Write%20personal%20Page%20Apps%20data%20from%20this%20browser&amp;target_name=page-apps&amp;expires_in=90&amp;contents=write" target="_blank" rel="noreferrer">Create fine-grained PAT on GitHub <span aria-hidden="true">↗</span></a>
@@ -121,7 +121,7 @@ const statusLabel = (status: string): string => ({
           <input id="github-pat" name="token" type="password" required autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…" />
           <button type="button" data-pat-toggle aria-controls="github-pat">Show</button>
         </div>
-        <p class="field-help">The hub checks your GitHub account plus write access to <code>page-apps/quick-log</code> and <code>page-apps/bookmarks</code> before saving.</p>
+        <p class="field-help">The hub checks your account, read access to <code>todo-list-plugin</code>, and write access to <code>quick-log</code>, <code>bookmarks</code>, and <code>todo-list-data</code> before saving.</p>
 
         <label class="acknowledgement">
           <input name="acknowledgement" type="checkbox" required />
