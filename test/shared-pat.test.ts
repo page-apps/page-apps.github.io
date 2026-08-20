@@ -52,7 +52,8 @@ describe("shared PAT vault", () => {
       .mockResolvedValueOnce(jsonResponse({ permissions: { push: true } }))
       .mockResolvedValueOnce(jsonResponse({ permissions: { maintain: true } }))
       .mockResolvedValueOnce(jsonResponse({ permissions: { pull: true } }))
-      .mockResolvedValueOnce(jsonResponse({ permissions: { push: true } }));
+      .mockResolvedValueOnce(jsonResponse({ permissions: { push: true } }))
+      .mockResolvedValueOnce(jsonResponse({ permissions: { pull: true } }));
 
     const result = await setupSharedPat(" github_pat_example ", {
       storage,
@@ -60,13 +61,14 @@ describe("shared PAT vault", () => {
       now: () => new Date("2026-08-12T00:00:00.000Z"),
     });
 
-    expect(fetcher).toHaveBeenCalledTimes(5);
+    expect(fetcher).toHaveBeenCalledTimes(6);
     expect(fetcher.mock.calls.map(([url]) => url)).toEqual([
       "https://api.github.com/user",
       "https://api.github.com/repos/page-apps/quick-log",
       "https://api.github.com/repos/page-apps/bookmarks",
       "https://api.github.com/repos/page-apps/todo-list-plugin",
       "https://api.github.com/repos/page-apps/todo-list-data",
+      "https://api.github.com/repos/page-apps/ai-kol-insights-data",
     ]);
     expect(result).toEqual({
       account: "cmwen",
@@ -77,6 +79,7 @@ describe("shared PAT vault", () => {
         "page-apps/bookmarks",
         "page-apps/todo-list-plugin",
         "page-apps/todo-list-data",
+        "page-apps/ai-kol-insights-data",
       ],
     });
 

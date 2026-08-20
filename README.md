@@ -9,9 +9,9 @@ It owns the app registry in `data/apps.json` and manages the optional shared bro
 The deployed hub can verify and save one fine-grained GitHub personal access token for supported apps on `page-apps.github.io`:
 
 1. Open **Set up shared PAT**.
-2. Create a fine-grained PAT owned by `page-apps`, select `quick-log`, `bookmarks`, and the private Loam graph when applicable, then grant only **Contents: read and write**.
-3. Paste it into the hub. The hub verifies the GitHub account plus write access to `page-apps/quick-log` and `page-apps/bookmarks` before saving.
-4. Open Quick Log, Bookmark Garden, or Loam once. The app automatically reuses the saved shared PAT on later loads and still verifies its own target repository. You can disconnect the app for the current tab or choose a different credential at any time.
+2. Create a fine-grained PAT owned by `page-apps`, select `quick-log`, `bookmarks`, `ai-kol-insights-data`, and the private Loam graph when applicable, then grant only **Contents: read and write**.
+3. Paste it into the hub. The hub verifies the GitHub account and the required repository access, including read access to the private AI Field Notes data repository, before saving.
+4. Open Quick Log, Bookmark Garden, AI Field Notes, or Loam once. The app automatically reuses the saved shared PAT on later loads and still verifies its own target repository. You can disconnect the app for the current tab or choose a different credential at any time.
 
 The credential uses the framework-owned `repo-apps:credentials:v1` envelope in same-origin `localStorage`. It is never added to source, URLs, GitHub Actions, or the static build. Removing it from the hub removes it for all apps; disconnecting one app does not remove the shared credential.
 

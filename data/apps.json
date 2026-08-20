@@ -60,6 +60,16 @@
       "status": "published",
       "tags": ["ai-news", "knowledge", "pwa", "reading"],
       "capabilities": ["read", "write", "publish", "offline"]
+    },
+    {
+      "id": "ai-kol-insights",
+      "title": "AI Field Notes",
+      "description": "Read a private daily synthesis of primary-source insights from trusted voices across AI.",
+      "repository": "page-apps/ai-kol-insights",
+      "pagesUrl": "https://page-apps.github.io/ai-kol-insights/",
+      "status": "published",
+      "tags": ["ai", "research", "private-reader"],
+      "capabilities": ["read", "search", "archive"]
     }
   ]
 }
