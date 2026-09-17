@@ -8,6 +8,7 @@ const REQUIRED_REPOSITORIES = [
   { repository: "page-apps/todo-list-plugin", access: "read" },
   { repository: "page-apps/todo-list-data", access: "write" },
   { repository: "page-apps/ai-kol-insights-data", access: "read" },
+  { repository: "page-apps/tool-radar-data", access: "read" },
 ] as const;
 
 interface StorageLike {

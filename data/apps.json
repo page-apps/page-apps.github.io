@@ -70,6 +70,16 @@
       "status": "published",
       "tags": ["ai", "research", "private-reader"],
       "capabilities": ["read", "search", "archive"]
+    },
+    {
+      "id": "tool-radar",
+      "title": "Tool Radar",
+      "description": "Track releases of your favourite tools with deterministic official checks and coding-agent summaries only when something ships.",
+      "repository": "page-apps/tool-radar",
+      "pagesUrl": "https://page-apps.github.io/tool-radar/",
+      "status": "published",
+      "tags": ["releases", "developer-tools", "private-reader"],
+      "capabilities": ["read", "search"]
     }
   ]
 }
