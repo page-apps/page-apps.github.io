@@ -12,6 +12,16 @@
       "capabilities": ["read", "write", "publish"]
     },
     {
+      "id": "app-framework",
+      "title": "App Framework",
+      "description": "Explore the patterns, boundaries and scheduler contracts behind repository-backed personal apps.",
+      "repository": "page-apps/app-framework",
+      "pagesUrl": "https://page-apps.github.io/app-framework/",
+      "status": "building",
+      "tags": ["framework", "patterns", "documentation", "developer-tools"],
+      "capabilities": ["read", "search", "documentation"]
+    },
+    {
       "id": "bookmarks",
       "title": "Bookmark Garden",
       "description": "Save, tag, search and connect useful links in your own GitHub-backed library.",
