@@ -80,6 +80,16 @@
       "status": "published",
       "tags": ["releases", "developer-tools", "private-reader"],
       "capabilities": ["read", "search"]
+    },
+    {
+      "id": "shopping-list",
+      "title": "Scout List",
+      "description": "Keep a private list of things worth buying, with weekly research into price, reviews and best-value options.",
+      "repository": "page-apps/shopping-list",
+      "pagesUrl": "https://page-apps.github.io/shopping-list/",
+      "status": "published",
+      "tags": ["shopping", "research", "private-list"],
+      "capabilities": ["read", "write", "recommendations"]
     }
   ]
 }
