@@ -107,7 +107,7 @@
       "description": "Review repositories, pull requests, and workflow health across repositories your GitHub PAT can access.",
       "repository": "page-apps/project-dashboard",
       "pagesUrl": "https://page-apps.github.io/project-dashboard/",
-      "status": "building",
+      "status": "published",
       "tags": ["github", "dashboard", "developer-tools", "pwa"],
       "capabilities": ["read", "write", "multi-repository", "offline"]
     }
