@@ -100,6 +100,16 @@
       "status": "published",
       "tags": ["shopping", "research", "private-list"],
       "capabilities": ["read", "write", "recommendations"]
+    },
+    {
+      "id": "project-dashboard",
+      "title": "GitHub Dashboard",
+      "description": "Review repositories, pull requests, and workflow health across repositories your GitHub PAT can access.",
+      "repository": "page-apps/project-dashboard",
+      "pagesUrl": "https://page-apps.github.io/project-dashboard/",
+      "status": "published",
+      "tags": ["github", "dashboard", "developer-tools", "pwa"],
+      "capabilities": ["read", "write", "multi-repository", "offline"]
     }
   ]
 }
