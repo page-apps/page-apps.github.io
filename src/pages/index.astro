@@ -12,10 +12,11 @@ const statusLabel = (status: string): string => ({
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#17121e" />
     <meta name="description" content="A calm launchpad for personal GitHub Pages applications." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; base-uri 'self'; form-action 'none'" />
     <title>Personal Hub · Your applications, together</title>
@@ -27,6 +28,7 @@ const statusLabel = (status: string): string => ({
         <span><strong>Personal Hub</strong><small>Your applications, together</small></span>
       </a>
       <div class="header-actions">
+        <button class="button button-quiet" type="button" data-theme-toggle>Use light theme</button>
         <span class="header-note">{registry.apps.length} app{registry.apps.length === 1 ? "" : "s"} in your constellation</span>
         <button class="button button-quiet pat-header-button" type="button" data-pat-open>
           <span class="pat-dot" aria-hidden="true"></span>
@@ -139,6 +141,9 @@ const statusLabel = (status: string): string => ({
     <footer><span>Personal Hub · v0.1.0</span><span>Built for small, user-owned applications</span></footer>
 
     <script>
+      import registry from "../../data/apps.json";
+      import { mountHubRelay } from "../lib/web-relay";
+      import { initializeTheme, toggleTheme } from "../lib/theme";
       import { readSharedPatSummary, removeSharedPat, setupSharedPat } from "../lib/shared-pat";
 
       const dialog = document.querySelector<HTMLDialogElement>("[data-pat-dialog]");
@@ -194,8 +199,22 @@ const statusLabel = (status: string): string => ({
         window.setTimeout(() => tokenInput?.focus(), 0);
       }
 
+      initializeTheme();
+      const relayOptions = {
+        apps: registry.apps,
+        dialogOpen: () => Boolean(dialog?.open),
+        openCredentials: openDialog,
+        toggleTheme,
+      };
+      let relay = mountHubRelay(relayOptions);
+      document.querySelector<HTMLButtonElement>("[data-theme-toggle]")?.addEventListener("click", () => {
+        void relay.registry.execute("personal-hub.toggle-theme");
+      });
+
       document.querySelectorAll<HTMLElement>("[data-pat-open]").forEach((button) => {
-        button.addEventListener("click", openDialog);
+        button.addEventListener("click", () => {
+          void relay.registry.execute("personal-hub.manage-credentials");
+        });
       });
       document.querySelectorAll<HTMLElement>("[data-pat-close]").forEach((button) => {
         button.addEventListener("click", () => dialog?.close());
@@ -238,6 +257,10 @@ const statusLabel = (status: string): string => ({
         renderStatus();
       });
 
+      window.addEventListener("pagehide", () => relay.dispose());
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) relay = mountHubRelay(relayOptions);
+      });
       window.addEventListener("storage", renderStatus);
       renderStatus();
     </script>

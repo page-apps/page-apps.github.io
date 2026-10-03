@@ -102,6 +102,16 @@
       "capabilities": ["read", "write", "recommendations"]
     },
     {
+      "id": "google-drive-editor",
+      "title": "Drive Editor",
+      "description": "Choose and edit plain-text or Markdown files in Google Drive with limited, user-approved access.",
+      "repository": "page-apps/google-drive-editor",
+      "pagesUrl": "https://app.cmwen.dev/",
+      "status": "building",
+      "tags": ["google-drive", "editor", "oauth", "experiment"],
+      "capabilities": ["read", "write", "google-drive"]
+    },
+    {
       "id": "project-dashboard",
       "title": "GitHub Dashboard",
       "description": "Review repositories, pull requests, and workflow health across repositories your GitHub PAT can access.",
